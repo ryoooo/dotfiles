@@ -1,0 +1,8 @@
+[env]
+OPENROUTER_API_KEY = { required = "https://openrouter.ai/settings/keys で取得" }
+GITHUB_MCP_TOKEN = { required = "https://github.com/settings/tokens で取得" }
+REF_API_KEY = { required = "https://ref.tools で取得" }
+CONTEXT7_API_KEY = { required = "context7のAPIキー" }
+BRAVE_API_KEY = { required = "Brave Searchのキー" }
+N8N_API_URL = { required = "n8nのURL" }
+N8N_API_KEY = { required = "n8nのAPIキー" }

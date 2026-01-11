@@ -1,0 +1,84 @@
+model = "gpt-5.2-codex"
+model_reasoning_effort = "medium"
+sandbox_mode = "workspace-write"
+
+
+[features]
+web_search_request = true
+rmcp_client = true
+skills = true
+
+
+[sandbox_workspace_write]
+network_access = true
+
+
+# MCP Servers
+[mcp_servers.microsoft-docs]
+command = "npx"
+args = ["-y", "mcp-remote", "https://learn.microsoft.com/api/mcp"]
+enabled = false
+
+[mcp_servers.azure-mcp-server]
+command = "npx"
+args = ["-y", "@azure/mcp@latest", "server", "start"]
+enabled = false
+
+[mcp_servers.sequential-thinking]
+command = "npx"
+args = ["-y", "@modelcontextprotocol/server-sequential-thinking"]
+enabled = false
+
+[mcp_servers.context7]
+command = "npx"
+args = ["-y", "@upstash/context7-mcp", "--api-key", "$CONTEXT7_API_KEY"]
+startup_timeout_ms = 20_000
+enabled = true
+
+[mcp_servers.github-mcp]
+url = "https://api.githubcopilot.com/mcp/"
+bearer_token_env_var = "GITHUB_MCP_TOKEN"
+enabled = false
+
+[mcp_servers.serena]
+command = "uvx"
+args = ["--from", "git+https://github.com/oraios/serena", "serena", "start-mcp-server", "--context", "codex"]
+enabled = false
+
+[mcp_servers.brave-search]
+command = "npx"
+args = ["-y", "@brave/brave-search-mcp-server", "--transport", "stdio"]
+env = { "BRAVE_API_KEY" = "$BRAVE_API_KEY" }
+enabled = false
+
+[mcp_servers.deepwiki]
+url = "https://mcp.deepwiki.com/mcp"
+enabled = true
+
+[mcp_servers.supabase-mcp]
+url = "https://mcp.supabase.com/mcp"
+enabled = false
+
+[mcp_servers.exa]
+url = "https://mcp.exa.ai/mcp?tools=web_search_exa,get_code_context_exa,crawling_exa,company_research_exa,linkedin_search_exa,deep_researcher_start,deep_researcher_check"
+enabled = true
+
+[mcp_servers.ref]
+command = "npx"
+args = ["-y", "ref-tools-mcp@latest"]
+env = { "REF_API_KEY" = "$REF_API_KEY" }
+startup_timeout_ms = 20_000
+enabled = false
+
+[mcp_servers.n8n-mcp]
+command = "npx"
+args = ["-y", "n8n-mcp@2.31.3", "--executablePath"]
+env = { "MCP_MODE" = "stdio", "LOG_LEVEL" = "error", "DISABLE_CONSOLE_OUTPUT" = "true", "N8N_API_URL" = "$N8N_API_URL", "N8N_API_KEY" = "$N8N_API_KEY" }
+enabled = false
+
+
+[notice]
+"hide_gpt-5.1-codex-max_migration_prompt" = true
+
+[notice.model_migrations]
+"gpt-5.2" = "gpt-5.2-codex"

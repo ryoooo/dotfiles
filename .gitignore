@@ -1,0 +1,12 @@
+# dotter (マシン固有・自動生成)
+.dotter/local.toml
+.dotter/cache.toml
+
+# エディタ
+*.swp
+*.bak
+*~
+
+# OS
+.DS_Store
+Thumbs.db

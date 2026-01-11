@@ -1,0 +1,18 @@
+[helpers]
+
+[default]
+depends = []
+
+[default.files]
+".zshrc" = "~/.zshrc"
+".p10k.zsh" = "~/.p10k.zsh"
+".gitconfig" = "~/.gitconfig"
+".tmux.conf" = "~/.tmux.conf"
+"config/git" = "~/.config/git"
+"config/gh/config.yml" = "~/.config/gh/config.yml"
+"config/mise/config.toml" = "~/.config/mise/config.toml"
+".claude/CLAUDE.md" = "~/.claude/CLAUDE.md"
+".claude/settings.json" = "~/.claude/settings.json"
+".claude/statusline.sh" = "~/.claude/statusline.sh"
+".codex/config.toml" = "~/.codex/config.toml"
+".codex/AGENTS.md" = "~/.codex/AGENTS.md"
