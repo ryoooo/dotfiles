@@ -1,0 +1,223 @@
+version: '3'
+
+vars:
+  ZSH_CUSTOM: '{{.HOME}}/.oh-my-zsh/custom'
+
+tasks:
+  default:
+    desc: すべてをインストール
+    cmds:
+      - task: install
+
+  install:
+    desc: 新規マシンの完全セットアップ
+    cmds:
+      - task: install:deps
+      - task: install:mise
+      - task: install:tools
+      - task: install:dotter
+      - task: install:zsh
+      - task: install:claude-code
+      - task: install:shell
+      - echo ""
+      - echo "=== Next Steps ==="
+      - echo "1. ~/.config/mise/config.local.toml に API キーを設定"
+      - echo "2. task setup:mcp を実行"
+      - echo "3. exec zsh でシェル再起動"
+
+  install:deps:
+    desc: 基本パッケージのインストール
+    cmds:
+      - |
+        if command -v apt &> /dev/null; then
+          if ! dpkg -s build-essential &> /dev/null 2>&1; then
+            echo "Installing build-essential..."
+            sudo apt update && sudo apt install -y build-essential curl git zsh
+          else
+            echo "build-essential already installed"
+          fi
+        elif command -v dnf &> /dev/null; then
+          sudo dnf groupinstall -y "Development Tools"
+          sudo dnf install -y curl git zsh
+        fi
+    status:
+      - command -v gcc
+
+  install:mise:
+    desc: mise のインストール
+    cmds:
+      - curl https://mise.run | sh
+    status:
+      - command -v mise
+
+  install:tools:
+    desc: mise 経由でツールをインストール
+    deps: [install:mise]
+    env:
+      PATH: '{{.HOME}}/.local/bin:{{.PATH}}'
+    cmds:
+      - mise use --global node@lts
+      - mise use --global pnpm
+      - mise use --global python@3.12
+      - mise use --global uv
+      - mise use --global rust@stable
+      - mise use --global bun
+      - mise use --global lsd
+      - mise use --global zoxide
+      - mise use --global fzf
+      - mise use --global bat
+      - mise use --global jq
+      - mise use --global fd
+      - mise use --global sd
+      - mise use --global ripgrep
+      - mise use --global zellij
+      - mise use --global task
+
+  install:dotter:
+    desc: dotter のインストールとデプロイ
+    deps: [install:tools]
+    cmds:
+      - task: install:dotter:binary
+      - task: install:dotter:local
+      - task: deploy
+
+  install:dotter:binary:
+    desc: dotter バイナリのインストール
+    cmds:
+      - cargo install dotter
+    status:
+      - command -v dotter
+
+  install:dotter:local:
+    desc: local.toml の作成
+    cmds:
+      - |
+        cat > .dotter/local.toml << 'EOF'
+        includes = []
+        packages = ["default"]
+
+        [files]
+
+        [variables]
+        EOF
+    status:
+      - test -f .dotter/local.toml
+
+  install:zsh:
+    desc: Oh My Zsh とプラグインのインストール
+    cmds:
+      - task: install:zsh:omz
+      - task: install:zsh:p10k
+      - task: install:zsh:plugins
+
+  install:zsh:omz:
+    desc: Oh My Zsh のインストール
+    cmds:
+      - sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+    status:
+      - test -d {{.HOME}}/.oh-my-zsh
+
+  install:zsh:p10k:
+    desc: Powerlevel10k テーマのインストール
+    deps: [install:zsh:omz]
+    cmds:
+      - git clone --depth=1 https://github.com/romkatv/powerlevel10k.git {{.ZSH_CUSTOM}}/themes/powerlevel10k
+    status:
+      - test -d {{.ZSH_CUSTOM}}/themes/powerlevel10k
+
+  install:zsh:plugins:
+    desc: Zsh プラグインのインストール
+    deps: [install:zsh:omz]
+    cmds:
+      - |
+        install_plugin() {
+          local name=$1 url=$2
+          if [[ ! -d "{{.ZSH_CUSTOM}}/plugins/$name" ]]; then
+            echo "Installing $name..."
+            git clone "$url" "{{.ZSH_CUSTOM}}/plugins/$name"
+          else
+            echo "$name already installed"
+          fi
+        }
+        install_plugin zsh-autosuggestions https://github.com/zsh-users/zsh-autosuggestions
+        install_plugin zsh-syntax-highlighting https://github.com/zsh-users/zsh-syntax-highlighting.git
+        install_plugin zsh-bat https://github.com/fdellwing/zsh-bat.git
+        install_plugin zsh-aliases-lsd https://github.com/yuhonas/zsh-aliases-lsd.git
+        install_plugin zsh_codex https://github.com/tom-doerr/zsh_codex.git
+
+  install:claude-code:
+    desc: Claude Code のインストール
+    deps: [install:tools]
+    cmds:
+      - pnpm add -g @anthropic-ai/claude-code
+    status:
+      - command -v claude
+
+  install:shell:
+    desc: デフォルトシェルを zsh に変更
+    cmds:
+      - chsh -s $(which zsh)
+    status:
+      - '[[ "$SHELL" == *"zsh"* ]]'
+
+  deploy:
+    desc: dotfiles をデプロイ（シンボリックリンク作成）
+    cmds:
+      - dotter deploy --force
+
+  undeploy:
+    desc: dotfiles のデプロイを取り消し
+    cmds:
+      - dotter undeploy
+
+  setup:mcp:
+    desc: Claude Code MCP サーバーの設定
+    deps: [install:claude-code]
+    cmds:
+      - |
+        claude mcp add context7 --scope user -- npx -y @upstash/context7-mcp@latest
+        echo "Added: context7"
+        claude mcp add chrome-devtools --scope user -- npx chrome-devtools-mcp@latest --executablePath /usr/bin/google-chrome
+        echo "Added: chrome-devtools"
+        claude mcp add exa --scope user --transport http -- 'https://mcp.exa.ai/mcp?tools=web_search_exa,get_code_context_exa,crawling_exa,company_research_exa,linkedin_search_exa,deep_researcher_start,deep_researcher_check'
+        echo "Added: exa"
+        if [ -n "$REF_API_KEY" ]; then
+          claude mcp add Ref --scope user --transport http --header "x-ref-api-key: $REF_API_KEY" -- 'https://api.ref.tools/mcp'
+          echo "Added: Ref"
+        else
+          echo "REF_API_KEY not set, skipping Ref"
+        fi
+        echo ""
+        echo "MCP servers setup complete! Run 'claude mcp list' to verify."
+
+  update:zsh-plugins:
+    desc: Zsh プラグインを更新
+    cmds:
+      - |
+        for dir in {{.ZSH_CUSTOM}}/plugins/*/; do
+          if [[ -d "$dir/.git" ]]; then
+            echo "Updating $(basename $dir)..."
+            git -C "$dir" pull --ff-only
+          fi
+        done
+      - |
+        if [[ -d "{{.ZSH_CUSTOM}}/themes/powerlevel10k/.git" ]]; then
+          echo "Updating powerlevel10k..."
+          git -C "{{.ZSH_CUSTOM}}/themes/powerlevel10k" pull --ff-only
+        fi
+
+  update:claude-code:
+    desc: Claude Code を最新版に更新
+    cmds:
+      - pnpm update -g @anthropic-ai/claude-code
+
+  update:tools:
+    desc: mise ツールを最新版に更新
+    cmds:
+      - mise upgrade
+
+  clean:
+    desc: キャッシュや一時ファイルを削除
+    cmds:
+      - rm -f .dotter/cache.toml
+      - echo "Cleaned up cache files"

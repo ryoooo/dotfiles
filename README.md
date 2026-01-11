@@ -1,6 +1,6 @@
 # dotfiles
 
-dotter を使用した dotfiles 管理リポジトリ。
+dotter + go-task を使用した dotfiles 管理リポジトリ。
 
 ## 含まれる設定
 
@@ -9,6 +9,7 @@ dotter を使用した dotfiles 管理リポジトリ。
 | Shell | `.zshrc`, `.p10k.zsh` | Zsh + Oh My Zsh + Powerlevel10k |
 | Git | `.gitconfig`, `config/git/ignore` | Git グローバル設定 |
 | Terminal | `.tmux.conf` | tmux 設定 |
+| Terminal | `config/zellij/config.kdl` | zellij 設定 |
 | Tools | `config/mise/config.toml` | mise ツールバージョン管理 |
 | GitHub | `config/gh/config.yml` | GitHub CLI 設定 |
 | Claude | `.claude/*` | Claude Code 設定 |
@@ -22,10 +23,15 @@ dotter を使用した dotfiles 管理リポジトリ。
 git clone https://github.com/ryoooo/dotfiles.git ~/dotfiles
 cd ~/dotfiles
 
-# 2. インストールスクリプト実行
-./install.sh
+# 2. mise と task をインストール（ブートストラップ）
+curl https://mise.run | sh
+~/.local/bin/mise use --global task
+eval "$(~/.local/bin/mise activate bash)"
 
-# 3. API キーを設定
+# 3. 完全セットアップ実行
+task install
+
+# 4. API キーを設定
 cat > ~/.config/mise/config.local.toml << 'EOF'
 [env]
 OPENROUTER_API_KEY = "your-key"
@@ -37,33 +43,46 @@ N8N_API_URL = "your-url"
 N8N_API_KEY = "your-key"
 EOF
 
-# 4. Claude Code MCP サーバー設定
-./scripts/setup-mcp.sh
+# 5. Claude Code MCP サーバー設定
+task setup:mcp
 
-# 5. シェル再起動
+# 6. シェル再起動
 exec zsh
 ```
 
-## dotter の使い方
-
-### 基本コマンド
+## task コマンド
 
 ```bash
-# 設定をデプロイ（シンボリックリンク作成）
-dotter deploy
+# タスク一覧を表示
+task --list
 
-# 強制デプロイ（既存ファイルを上書き）
-dotter deploy --force
+# 完全セットアップ（新規マシン用）
+task install
 
-# ドライラン（実行内容を確認）
-dotter deploy --dry-run
+# dotfiles をデプロイ（シンボリックリンク作成）
+task deploy
 
 # デプロイを取り消し
-dotter undeploy
+task undeploy
 
-# 変更を監視して自動デプロイ
-dotter watch
+# Claude Code MCP サーバー設定
+task setup:mcp
+
+# 更新系
+task update:tools        # mise ツールを更新
+task update:zsh-plugins  # Zsh プラグインを更新
+task update:claude-code  # Claude Code を更新
+
+# 個別インストール
+task install:deps        # 基本パッケージ
+task install:mise        # mise
+task install:tools       # mise 経由でツール
+task install:zsh         # Oh My Zsh + プラグイン
+task install:claude-code # Claude Code
+task install:dotter      # dotter + デプロイ
 ```
+
+## dotter の使い方
 
 ### 設定ファイル
 
@@ -87,12 +106,12 @@ dotter watch
 3. デプロイ実行：
 
 ```bash
-dotter deploy
+task deploy
 ```
 
 ## インストールされるツール
 
-install.sh で以下がセットアップされます：
+`task install` で以下がセットアップされます。
 
 ### mise 経由
 
@@ -104,6 +123,7 @@ install.sh で以下がセットアップされます：
 | uv | Python パッケージマネージャ |
 | rust (stable) | Rust |
 | bun | JavaScript ランタイム |
+| task | タスクランナー |
 | lsd | ls の代替 |
 | zoxide | cd の代替 |
 | fzf | ファジーファインダー |
@@ -112,6 +132,13 @@ install.sh で以下がセットアップされます：
 | fd | find の代替 |
 | sd | sed の代替 |
 | ripgrep | grep の代替 |
+| zellij | ターミナルマルチプレクサ |
+
+### pnpm 経由
+
+| ツール | 用途 |
+|--------|------|
+| @anthropic-ai/claude-code | Claude Code CLI |
 
 ### Zsh プラグイン
 
@@ -156,11 +183,10 @@ p10k configure
 │   ├── gh/            # GitHub CLI
 │   ├── git/           # Git
 │   └── mise/          # mise
-├── scripts/           # セットアップスクリプト
 ├── windows-terminal/  # Windows Terminal
 ├── .gitconfig
 ├── .p10k.zsh
 ├── .tmux.conf
 ├── .zshrc
-└── install.sh
+└── Taskfile.yml       # タスク定義
 ```

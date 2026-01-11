@@ -16,3 +16,4 @@ depends = []
 ".claude/statusline.sh" = "~/.claude/statusline.sh"
 ".codex/config.toml" = "~/.codex/config.toml"
 ".codex/AGENTS.md" = "~/.codex/AGENTS.md"
+"config/zellij/config.kdl" = "~/.config/zellij/config.kdl"
