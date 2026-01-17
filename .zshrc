@@ -146,6 +146,16 @@ alias la='ls -A'
 alias l='ls -CF'
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history | tail -n1 | sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
+# Zellij floating panes
+alias tt='zellij action new-pane --floating -- bash -l'
+alias lzd='zellij action new-pane --floating -- lazydocker'
+
+# Development environment launcher
+dev() {
+    local dir="${1:-.}"
+    cd "$dir" && zellij --layout dev_fixed_nvim_claude
+}
+
 # Homebrew (存在する場合のみ)
 if [[ -f /home/linuxbrew/.linuxbrew/bin/brew ]]; then
   eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"

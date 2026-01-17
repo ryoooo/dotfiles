@@ -17,3 +17,5 @@ depends = []
 ".codex/config.toml" = "~/.codex/config.toml"
 ".codex/AGENTS.md" = "~/.codex/AGENTS.md"
 "config/zellij/config.kdl" = "~/.config/zellij/config.kdl"
+"config/zellij/layouts" = "~/.config/zellij/layouts"
+"config/nvim" = "~/.config/nvim"

@@ -9,7 +9,8 @@ dotter + go-task を使用した dotfiles 管理リポジトリ。
 | Shell | `.zshrc`, `.p10k.zsh` | Zsh + Oh My Zsh + Powerlevel10k |
 | Git | `.gitconfig`, `config/git/ignore` | Git グローバル設定 |
 | Terminal | `.tmux.conf` | tmux 設定 |
-| Terminal | `config/zellij/config.kdl` | zellij 設定 |
+| Terminal | `config/zellij/*` | Zellij 設定 + レイアウト |
+| Editor | `config/nvim/*` | Neovim (LazyVim) |
 | Tools | `config/mise/config.toml` | mise ツールバージョン管理 |
 | GitHub | `config/gh/config.yml` | GitHub CLI 設定 |
 | Claude | `.claude/*` | Claude Code 設定 |
@@ -133,6 +134,9 @@ task deploy
 | sd | sed の代替 |
 | ripgrep | grep の代替 |
 | zellij | ターミナルマルチプレクサ |
+| yazi | ファイルマネージャ |
+| lazygit | Git TUI |
+| lazydocker | Docker TUI |
 
 ### pnpm 経由
 
@@ -182,7 +186,9 @@ p10k configure
 ├── config/
 │   ├── gh/            # GitHub CLI
 │   ├── git/           # Git
-│   └── mise/          # mise
+│   ├── mise/          # mise
+│   ├── nvim/          # Neovim
+│   └── zellij/        # Zellij（config + layouts）
 ├── windows-terminal/  # Windows Terminal
 ├── .gitconfig
 ├── .p10k.zsh
@@ -190,3 +196,53 @@ p10k configure
 ├── .zshrc
 └── Taskfile.yml       # タスク定義
 ```
+
+## 開発環境の使い方
+
+Zellij + yazi + lazygit + nvim + Claude Code を統合した開発環境。
+
+### 起動
+
+```bash
+# プロジェクトディレクトリで起動
+dev ~/project
+
+# または
+cd ~/project && zellij --layout dev_fixed_nvim_claude
+```
+
+### レイアウト
+
+```
+┌─────────┬────────────────────┬──────────┐
+│  yazi   │                    │          │
+│ (files) │       nvim         │  Claude  │
+├─────────┤    (diff受け口)    │   Code   │
+│ lazygit │                    │          │
+│  (git)  │                    │          │
+└─────────┴────────────────────┴──────────┘
+   20%           55%              25%
+```
+
+### Claude Code との差分連携
+
+1. Claude Code ペインで `/config` を開く
+2. `Diff tool` を `auto` に変更
+3. Claude が変更を提案すると nvim に diff が表示される
+4. 採用: `:w`、却下: `:q`
+
+### フローティングペイン
+
+```bash
+tt   # ターミナルを開く
+lzd  # lazydocker を開く
+```
+
+### nvim キーバインド（Claude 連携）
+
+| キー | 説明 |
+|------|------|
+| `<leader>ad` | diff を採用 |
+| `<leader>aD` | diff を却下 |
+| `<leader>ab` | 現在のバッファを Claude に追加 |
+| `<leader>as` | 選択範囲を Claude に追加（ビジュアルモード）|

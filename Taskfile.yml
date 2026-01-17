@@ -72,6 +72,9 @@ tasks:
       - mise use --global ripgrep
       - mise use --global zellij
       - mise use --global task
+      - mise use --global yazi
+      - mise use --global lazygit
+      - mise use --global lazydocker
 
   install:dotter:
     desc: dotter のインストールとデプロイ
