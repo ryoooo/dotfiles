@@ -10,15 +10,20 @@ layout {
     }
 
     tab name="dev" focus=true {
-        pane split_direction="horizontal" {
-            pane size="20%" split_direction="vertical" {
+        pane split_direction="vertical" {
+            pane size="30%" split_direction="horizontal" {
                 pane name="yazi" command="yazi"
                 pane name="git" command="lazygit"
             }
-            pane size="55%" name="nvim" command="bash" {
-                args "-lc" "nvim"
+            pane size="30%" split_direction="horizontal" {
+                pane size="75%" name="nvim" command="bash" {
+                    args "-lc" "nvim"
+                }
+                pane size="25%" name="terminal" command="bash" {
+                    args "-l"
+                }
             }
-            pane size="25%" name="claude" command="bash" {
+            pane name="claude" command="bash" {
                 args "-lc" "claude"
             }
         }
