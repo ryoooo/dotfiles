@@ -137,6 +137,7 @@ task deploy
 | yazi | ファイルマネージャ |
 | lazygit | Git TUI |
 | lazydocker | Docker TUI |
+| neovim | エディタ |
 
 ### pnpm 経由
 

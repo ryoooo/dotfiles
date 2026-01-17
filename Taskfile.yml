@@ -75,6 +75,7 @@ tasks:
       - mise use --global yazi
       - mise use --global lazygit
       - mise use --global lazydocker
+      - mise use --global neovim
 
   install:dotter:
     desc: dotter のインストールとデプロイ
