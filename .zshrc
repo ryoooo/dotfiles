@@ -187,7 +187,7 @@ case ":$PATH:" in
 esac
 
 # Safe-chain initialization
-[[ -f ~/.safe-chain/scripts/init-posix.sh ]] && source ~/.safe-chain/scripts/init-posix.sh
+# [[ -f ~/.safe-chain/scripts/init-posix.sh ]] && source ~/.safe-chain/scripts/init-posix.sh
 
 # zsh_codex configuration
 export ZSH_CODEX_PYTHON="$(mise which python 2>/dev/null || echo python)"
