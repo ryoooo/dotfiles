@@ -58,6 +58,7 @@ tasks:
     cmds:
       - mise use --global node@lts
       - mise use --global pnpm
+      - mkdir -p {{.HOME}}/.local/share/pnpm
       - mise use --global python@3.12
       - mise use --global uv
       - mise use --global rust@stable
@@ -117,7 +118,7 @@ tasks:
   install:zsh:omz:
     desc: Oh My Zsh のインストール
     cmds:
-      - sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+      - sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended --keep-zshrc
     status:
       - test -d {{.HOME}}/.oh-my-zsh
 
@@ -152,6 +153,9 @@ tasks:
   install:claude-code:
     desc: Claude Code のインストール
     deps: [install:tools]
+    env:
+      PATH: '{{.HOME}}/.local/bin:{{.HOME}}/.local/share/mise/shims:{{.HOME}}/.local/share/pnpm:{{.PATH}}'
+      PNPM_HOME: '{{.HOME}}/.local/share/pnpm'
     cmds:
       - pnpm add -g @anthropic-ai/claude-code
     status:
