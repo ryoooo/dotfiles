@@ -5,4 +5,4 @@
 experimental = true
 
 [task_config]
-dir = "config/mise/tasks"
+includes = ["config/mise/tasks"]
