@@ -84,7 +84,9 @@ for domain in \
     "api.openai.com" \
     "api.exa.ai" \
     "context7.com" \
-    "mcp.context7.com"; do
+    "mcp.context7.com" \
+    "storage.googleapis.com" \
+    "claude.ai"; do
     echo "Resolving $domain..."
     ips=$(dig +noall +answer A "$domain" | awk '$4 == "A" {print $5}')
     if [ -z "$ips" ]; then

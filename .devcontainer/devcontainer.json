@@ -40,7 +40,7 @@
 	},
 	"workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=delegated",
 	"workspaceFolder": "/workspace",
-	"postCreateCommand": "git clone https://github.com/ryoooo/dotfiles.git ~/dotfiles && cd ~/dotfiles && eval \"$(~/.local/bin/mise activate bash)\" && mise trust ~/dotfiles/mise.toml && mise run install",
+	"postCreateCommand": "git clone https://github.com/ryoooo/dotfiles.git ~/dotfiles && cd ~/dotfiles && eval \"$(~/.local/bin/mise activate bash)\" && mise trust . && mise run install",
 	"postStartCommand": "sudo /usr/local/bin/init-firewall.sh",
 	"waitFor": "postStartCommand"
 }

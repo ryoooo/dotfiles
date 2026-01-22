@@ -68,8 +68,12 @@ devpod up . --ide vscode
 # 起動（IDE なし、SSH接続用）
 devpod up . --ide none
 
-# SSH 接続
-ssh dotfiles.devpod
+# SSH 接続（2つの方法）
+ssh dotfiles.devpod           # SSH 直接接続
+devpod ssh dotfiles           # devpod CLI 経由
+
+# コンテナ内でコマンド実行
+devpod ssh dotfiles --command "mise tasks"
 
 # 一時停止（リソース節約）
 devpod stop dotfiles
