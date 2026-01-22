@@ -1,6 +1,6 @@
 # dotfiles
 
-mise を使用した dotfiles 管理リポジトリ。
+[mise](https://mise.jdx.dev/) でツール管理・タスク実行・環境変数を一元管理する dotfiles。mise は asdf の高速な代替ツールで、Node.js や Python などのランタイムバージョン管理に加え、タスクランナーや環境変数管理も提供します。
 
 ## 含まれる設定
 
@@ -27,25 +27,25 @@ cd ~/dotfiles
 
 # 2. mise をインストール
 curl https://mise.run | sh
-eval "$(~/.local/bin/mise activate bash)"
+eval "$(~/.local/bin/mise activate bash)"  # 一時的に有効化
 
 # 3. 完全セットアップ実行
-mise run install
+mise trust . && mise run install
 
-# 4. API キーを設定（config.local.toml.example を参考に）
-cp ~/.config/mise/config.local.toml.example ~/.config/mise/config.local.toml
-# エディタで編集して実際の値を設定
-
-# 5. Claude Code MCP サーバー設定
-mise run setup-mcp
-
-# 6. シェル再起動
+# 4. シェル再起動（Zsh + Oh My Zsh が有効になる）
 exec zsh
+
+# 5. API キーを設定（任意）
+cp ~/dotfiles/config/mise/config.local.toml.example ~/.config/mise/config.local.toml
+nvim ~/.config/mise/config.local.toml  # 必要なキーを設定
+
+# 6. Claude Code MCP サーバー設定（任意）
+mise run setup-mcp
 ```
 
 ## DevContainer（DevPod）
 
-[DevPod](https://devpod.sh/) を使って、どこでも同じ開発環境を構築できます。クライアントのみで動作し、ベンダーロックインなし。
+[DevPod](https://devpod.sh/) でローカル・クラウド問わず同一の開発環境を構築できます。Docker、AWS、GCP など複数のプロバイダーに対応。
 
 ### DevContainer のみ取得
 
@@ -137,8 +137,8 @@ postStartCommand: ファイアウォール初期化
 
 ```bash
 # DevContainer 内で実行
-cp ~/.config/mise/config.local.toml.example ~/.config/mise/config.local.toml
-nvim ~/.config/mise/config.local.toml  # APIキーを設定
+cp ~/dotfiles/config/mise/config.local.toml.example ~/.config/mise/config.local.toml
+nvim ~/.config/mise/config.local.toml  # API キーを設定
 ```
 
 ## mise run コマンド
@@ -181,25 +181,25 @@ mise run install-claude-code # Claude Code
 
 | ツール | 用途 |
 |--------|------|
-| node (LTS) | Node.js |
-| pnpm | パッケージマネージャ |
-| python 3.12 | Python |
+| node (LTS) | JavaScript ランタイム |
+| pnpm | Node.js パッケージマネージャ |
+| python 3.12 | Python ランタイム |
 | uv | Python パッケージマネージャ |
-| rust (stable) | Rust |
-| bun | JavaScript ランタイム |
-| lsd | ls の代替 |
-| zoxide | cd の代替 |
+| rust (stable) | Rust ツールチェーン |
+| bun | 高速 JavaScript ランタイム |
+| lsd | モダンな ls |
+| zoxide | スマートな cd |
 | fzf | ファジーファインダー |
-| bat | cat の代替 |
-| jq | JSON 処理 |
-| fd | find の代替 |
-| sd | sed の代替 |
-| ripgrep | grep の代替 |
+| bat | シンタックスハイライト付き cat |
+| jq | JSON プロセッサ |
+| fd | 高速な find |
+| sd | 直感的な sed |
+| ripgrep | 高速な grep |
 | zellij | ターミナルマルチプレクサ |
-| yazi | ファイルマネージャ |
-| lazygit | Git TUI |
-| lazydocker | Docker TUI |
-| neovim | エディタ |
+| yazi | ターミナルファイルマネージャ |
+| lazygit | Git TUI クライアント |
+| lazydocker | Docker TUI クライアント |
+| neovim | テキストエディタ |
 
 ### ネイティブインストール（自動更新付き）
 
@@ -220,7 +220,7 @@ mise run install-claude-code # Claude Code
 
 ### マシン固有の設定
 
-`~/.config/mise/config.local.toml` で個別設定（gitignore済み）。`config.local.toml.example` を参考に作成。
+`~/.config/mise/config.local.toml` でマシン固有の API キーや環境変数を設定。`~/dotfiles/config/mise/config.local.toml.example` を参考に作成。このファイルは gitignore 対象。
 
 ### Powerlevel10k
 
