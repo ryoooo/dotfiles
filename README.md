@@ -29,20 +29,17 @@ cd ~/dotfiles
 curl https://mise.run | sh
 eval "$(~/.local/bin/mise activate bash)"  # 一時的に有効化
 
-# 3. 完全セットアップ実行
-mise trust . && mise run install
+# 3. 完全セットアップ実行（ツールインストール + 設定デプロイ）
+mise trust . && mise install && mise run setup
 
-# 4. デフォルトシェルを Zsh に変更
-chsh -s $(which zsh)
-
-# 5. シェル再起動（Zsh + Oh My Zsh が有効になる）
+# 4. シェル再起動（Zsh + Oh My Zsh が有効になる）
 exec zsh
 
-# 6. API キーを設定（任意）
+# 5. API キーを設定（任意）
 cp ~/dotfiles/config/mise/config.local.toml.example ~/.config/mise/config.local.toml
 nvim ~/.config/mise/config.local.toml  # 必要なキーを設定
 
-# 7. Claude Code MCP サーバー設定（任意）
+# 6. Claude Code MCP サーバー設定（任意）
 mise run setup-mcp
 ```
 
@@ -126,10 +123,9 @@ devpod up
 ↓
 .devcontainer/Dockerfile: mise + 基本ツール
 ↓
-postCreateCommand: dotfiles clone → mise run install
-  - CLI ツール（fd, rg, bat, uv, bun...）
-  - Claude Code（ネイティブインストール）
-  - Zsh + Oh My Zsh + Powerlevel10k
+postCreateCommand: dotfiles clone → mise install → mise run setup
+  - mise install: CLI ツール（fd, rg, bat, fzf, zoxide...）
+  - mise run setup: Claude Code, Zsh + Oh My Zsh + Powerlevel10k
 ↓
 postStartCommand: ファイアウォール初期化
 ↓
@@ -151,7 +147,7 @@ nvim ~/.config/mise/config.local.toml  # API キーを設定
 mise tasks
 
 # 完全セットアップ（新規マシン用）
-mise run install
+mise run setup
 
 # dotfiles をデプロイ（シンボリックリンク作成）
 mise run deploy
@@ -178,7 +174,7 @@ mise run install-claude-code # Claude Code
 
 ## インストールされるツール
 
-`mise run install` で以下がセットアップされます。
+`mise install && mise run setup` で以下がセットアップされます。
 
 ### mise 経由（config/mise/config.toml で管理）
 
