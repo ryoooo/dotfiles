@@ -1,0 +1,11 @@
+# このファイルを config.local.toml にコピーして使用
+# cp config.local.toml.example config.local.toml
+
+[env]
+OPENROUTER_API_KEY = "sk-or-..."
+GITHUB_MCP_TOKEN = "ghp_..."
+REF_API_KEY = "ref_..."
+CONTEXT7_API_KEY = "..."
+BRAVE_API_KEY = "..."
+N8N_API_URL = "https://n8n.example.com"
+N8N_API_KEY = "..."

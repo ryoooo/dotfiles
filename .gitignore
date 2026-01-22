@@ -1,6 +1,9 @@
 # dotter (廃止済み、ローカル残存ファイル)
 .dotter/
 
+# mise secrets
+config/mise/config.local.toml
+
 # エディタ
 *.swp
 *.bak

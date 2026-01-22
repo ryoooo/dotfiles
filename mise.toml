@@ -1,0 +1,5 @@
+# dotfiles ローカル用 mise 設定
+# グローバル設定は config/mise/config.toml を参照
+
+[task_config]
+dir = "config/mise/tasks"

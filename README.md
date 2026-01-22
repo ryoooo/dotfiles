@@ -15,6 +15,7 @@ mise を使用した dotfiles 管理リポジトリ。
 | GitHub | `config/gh/config.yml` | GitHub CLI 設定 |
 | Claude | `.claude/*` | Claude Code 設定 |
 | Codex | `.codex/*` | OpenAI Codex CLI 設定 |
+| DevContainer | `.devcontainer/*` | DevPod/VS Code DevContainer |
 | Windows | `windows-terminal/settings.json` | Windows Terminal 設定 |
 
 ## 新規マシンセットアップ
@@ -31,23 +32,97 @@ eval "$(~/.local/bin/mise activate bash)"
 # 3. 完全セットアップ実行
 mise run install
 
-# 4. API キーを設定
-cat > ~/.config/mise/config.local.toml << 'EOF'
-[env]
-OPENROUTER_API_KEY = "your-key"
-GITHUB_MCP_TOKEN = "your-token"
-REF_API_KEY = "your-key"
-CONTEXT7_API_KEY = "your-key"
-BRAVE_API_KEY = "your-key"
-N8N_API_URL = "your-url"
-N8N_API_KEY = "your-key"
-EOF
+# 4. API キーを設定（config.local.toml.example を参考に）
+cp ~/.config/mise/config.local.toml.example ~/.config/mise/config.local.toml
+# エディタで編集して実際の値を設定
 
 # 5. Claude Code MCP サーバー設定
 mise run setup-mcp
 
 # 6. シェル再起動
 exec zsh
+```
+
+## DevContainer（DevPod）
+
+[DevPod](https://devpod.sh/) を使って、どこでも同じ開発環境を構築できます。クライアントのみで動作し、ベンダーロックインなし。
+
+### DevPod インストール（Ubuntu/Linux）
+
+```bash
+# CLI インストール
+curl -L -o devpod "https://github.com/loft-sh/devpod/releases/latest/download/devpod-linux-amd64" \
+  && sudo install -c -m 0755 devpod /usr/local/bin \
+  && rm -f devpod
+
+# Docker プロバイダーを追加
+devpod provider add docker
+```
+
+### ワークスペース操作
+
+```bash
+# 起動（VS Code）
+devpod up . --ide vscode
+
+# 起動（IDE なし、SSH接続用）
+devpod up . --ide none
+
+# SSH 接続
+ssh dotfiles.devpod
+
+# 一時停止（リソース節約）
+devpod stop dotfiles
+
+# 再開
+devpod up dotfiles
+
+# 完全削除
+devpod delete dotfiles
+
+# ワークスペース一覧
+devpod list
+```
+
+### プロバイダー
+
+```bash
+# プロバイダー一覧
+devpod provider list
+
+# デフォルトプロバイダー切り替え（複数ある場合）
+devpod provider use docker
+
+# AWS プロバイダー追加
+devpod provider add aws
+
+# クラウドで起動
+devpod up . --provider aws
+```
+
+### 構築の流れ
+
+```
+devpod up
+↓
+.devcontainer/Dockerfile: mise + 基本ツール
+↓
+postCreateCommand: dotfiles clone → mise run install
+  - CLI ツール（fd, rg, bat, uv, bun...）
+  - Claude Code（ネイティブインストール）
+  - Zsh + Oh My Zsh + Powerlevel10k
+↓
+postStartCommand: ファイアウォール初期化
+↓
+環境変数: ~/.config/mise/config.local.toml で設定
+```
+
+### 環境変数の設定
+
+```bash
+# DevContainer 内で実行
+cp ~/.config/mise/config.local.toml.example ~/.config/mise/config.local.toml
+nvim ~/.config/mise/config.local.toml  # APIキーを設定
 ```
 
 ## mise run コマンド
@@ -129,7 +204,7 @@ mise run install-claude-code # Claude Code
 
 ### マシン固有の設定
 
-`~/.config/mise/config.local.toml` で個別設定（gitignore済み）。
+`~/.config/mise/config.local.toml` で個別設定（gitignore済み）。`config.local.toml.example` を参考に作成。
 
 ### Powerlevel10k
 
@@ -143,12 +218,18 @@ p10k configure
 ~/dotfiles/
 ├── .claude/           # Claude Code 設定
 ├── .codex/            # Codex CLI 設定
+├── .devcontainer/     # DevPod/DevContainer 設定
+│   ├── CLAUDE.md         # プロジェクトテンプレート
+│   ├── Dockerfile        # mise + 基本ツール
+│   ├── devcontainer.json # DevContainer 設定
+│   └── init-firewall.sh  # ファイアウォール
 ├── config/
 │   ├── gh/            # GitHub CLI
 │   ├── git/           # Git
 │   ├── mise/          # mise (config + tasks)
-│   │   ├── config.toml   # ツール・環境変数・エイリアス
-│   │   └── tasks/        # セットアップタスク
+│   │   ├── config.toml           # ツール・環境変数・エイリアス
+│   │   ├── config.local.toml.example  # 秘密情報のテンプレート
+│   │   └── tasks/                # セットアップタスク
 │   ├── nvim/          # Neovim
 │   └── zellij/        # Zellij（config + layouts）
 ├── windows-terminal/  # Windows Terminal

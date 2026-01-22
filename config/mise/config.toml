@@ -5,13 +5,14 @@ experimental = true
 EDITOR = "nvim"
 LANG = "ja_JP.UTF-8"
 # API keys (config.local.toml で上書き)
-OPENROUTER_API_KEY = { required = "https://openrouter.ai/settings/keys で取得" }
-GITHUB_MCP_TOKEN = { required = "https://github.com/settings/tokens で取得" }
 REF_API_KEY = { required = "https://ref.tools で取得" }
-CONTEXT7_API_KEY = { required = "context7のAPIキー" }
-BRAVE_API_KEY = { required = "Brave Searchのキー" }
-N8N_API_URL = { required = "n8nのURL" }
-N8N_API_KEY = { required = "n8nのAPIキー" }
+# Optional API keys - config.local.toml で設定
+# OPENROUTER_API_KEY = "sk-or-..."
+# GITHUB_MCP_TOKEN = "ghp_..."
+# CONTEXT7_API_KEY = "..."
+# BRAVE_API_KEY = "..."
+# N8N_API_URL = "https://..."
+# N8N_API_KEY = "..."
 
 [tools]
 node = "lts"
