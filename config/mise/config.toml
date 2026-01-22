@@ -33,7 +33,7 @@ zellij = "latest"
 yazi = "latest"
 lazygit = "latest"
 lazydocker = "latest"
-neovim = "latest"
+"aqua:neovim/neovim" = "latest"
 
 [shell_alias]
 # lsd aliases (zsh-aliases-lsd の代替)

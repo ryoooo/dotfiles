@@ -37,7 +37,7 @@
 	],
 	"containerEnv": {
 		"CLAUDE_CONFIG_DIR": "/home/node/.claude",
-		"GITHUB_TOKEN": "${localEnv:GITHUB_TOKEN}"
+		"MISE_GITHUB_TOKEN": "${localEnv:MISE_GITHUB_TOKEN}"
 	},
 	"workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=delegated",
 	"workspaceFolder": "/workspace",

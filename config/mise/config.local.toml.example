@@ -2,6 +2,7 @@
 # cp config.local.toml.example config.local.toml
 
 [env]
+MISE_GITHUB_TOKEN = "ghp_..."  # GitHub rate limit 回避用（GITHUB_TOKENはgh authと競合するため別名）
 OPENROUTER_API_KEY = "sk-or-..."
 GITHUB_MCP_TOKEN = "ghp_..."
 REF_API_KEY = "ref_..."
