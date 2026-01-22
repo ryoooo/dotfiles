@@ -41,7 +41,7 @@
 	},
 	"workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=delegated",
 	"workspaceFolder": "/workspace",
-	"postCreateCommand": "git clone https://github.com/ryoooo/dotfiles.git ~/dotfiles && cd ~/dotfiles && eval \"$(~/.local/bin/mise activate bash)\" && mise trust . && mise run deploy && mise install && mise run setup",
+	"postCreateCommand": "if [[ -f /workspace/mise.toml ]]; then ln -s /workspace ~/dotfiles; else git clone https://github.com/ryoooo/dotfiles.git ~/dotfiles; fi && cd ~/dotfiles && eval \"$(~/.local/bin/mise activate bash)\" && mise trust . && mise run deploy && mise install && mise run setup",
 	"postStartCommand": "sudo /usr/local/bin/init-firewall.sh",
 	"waitFor": "postStartCommand"
 }

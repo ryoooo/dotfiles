@@ -123,7 +123,8 @@ devpod up
 ↓
 .devcontainer/Dockerfile: mise + 基本ツール
 ↓
-postCreateCommand: dotfiles clone → mise run deploy → mise install → mise run setup
+postCreateCommand: dotfiles 準備 → mise run deploy → mise install → mise run setup
+  - /workspace が dotfiles なら symlink、そうでなければ clone
   - mise run deploy: シンボリックリンク作成（~/.config/mise/config.toml など）
   - mise install: CLI ツール（fd, rg, bat, fzf, zoxide...）
   - mise run setup: Claude Code, Zsh + Oh My Zsh + Powerlevel10k
