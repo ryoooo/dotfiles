@@ -43,25 +43,33 @@ ipset create allowed-domains hash:net
 # Fetch GitHub meta information and aggregate + add their IP ranges
 echo "Fetching GitHub IP ranges..."
 gh_ranges=$(curl -s https://api.github.com/meta)
-if [ -z "$gh_ranges" ]; then
-    echo "ERROR: Failed to fetch GitHub IP ranges"
-    exit 1
+if [ -z "$gh_ranges" ] || ! echo "$gh_ranges" | jq -e '.web and .api and .git' >/dev/null 2>&1; then
+    echo "WARN: Could not fetch GitHub IP ranges (rate limited?). Using fallback ranges + DNS."
+    # Fallback: GitHub's well-known IP ranges
+    for cidr in "140.82.112.0/20" "143.55.64.0/20" "185.199.108.0/22" "192.30.252.0/22"; do
+        echo "Adding fallback GitHub range $cidr"
+        ipset add -exist allowed-domains "$cidr"
+    done
+    # Also resolve key GitHub domains via DNS
+    for gh_domain in "api.github.com" "github.com" "raw.githubusercontent.com" "objects.githubusercontent.com"; do
+        echo "Resolving $gh_domain..."
+        gh_ips=$(dig +noall +answer A "$gh_domain" | awk '$4 == "A" {print $5}')
+        for ip in $gh_ips; do
+            echo "Adding $ip for $gh_domain"
+            ipset add -exist allowed-domains "$ip"
+        done
+    done
+else
+    echo "Processing GitHub IPs..."
+    while read -r cidr; do
+        if [[ ! "$cidr" =~ ^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/[0-9]{1,2}$ ]]; then
+            echo "WARN: Skipping invalid CIDR range: $cidr"
+            continue
+        fi
+        echo "Adding GitHub range $cidr"
+        ipset add -exist allowed-domains "$cidr"
+    done < <(echo "$gh_ranges" | jq -r '(.web + .api + .git)[]' | aggregate -q)
 fi
-
-if ! echo "$gh_ranges" | jq -e '.web and .api and .git' >/dev/null; then
-    echo "ERROR: GitHub API response missing required fields"
-    exit 1
-fi
-
-echo "Processing GitHub IPs..."
-while read -r cidr; do
-    if [[ ! "$cidr" =~ ^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/[0-9]{1,2}$ ]]; then
-        echo "ERROR: Invalid CIDR range from GitHub meta: $cidr"
-        exit 1
-    fi
-    echo "Adding GitHub range $cidr"
-    ipset add -exist allowed-domains "$cidr"
-done < <(echo "$gh_ranges" | jq -r '(.web + .api + .git)[]' | aggregate -q)
 
 # Resolve and add other allowed domains
 for domain in \
