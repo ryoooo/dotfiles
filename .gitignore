@@ -1,6 +1,5 @@
-# dotter (マシン固有・自動生成)
-.dotter/local.toml
-.dotter/cache.toml
+# dotter (廃止済み、ローカル残存ファイル)
+.dotter/
 
 # エディタ
 *.swp
