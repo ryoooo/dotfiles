@@ -1,4 +1,10 @@
+[settings]
+experimental = true
+
 [env]
+EDITOR = "nvim"
+LANG = "ja_JP.UTF-8"
+# API keys (config.local.toml で上書き)
 OPENROUTER_API_KEY = { required = "https://openrouter.ai/settings/keys で取得" }
 GITHUB_MCP_TOKEN = { required = "https://github.com/settings/tokens で取得" }
 REF_API_KEY = { required = "https://ref.tools で取得" }
@@ -6,3 +12,39 @@ CONTEXT7_API_KEY = { required = "context7のAPIキー" }
 BRAVE_API_KEY = { required = "Brave Searchのキー" }
 N8N_API_URL = { required = "n8nのURL" }
 N8N_API_KEY = { required = "n8nのAPIキー" }
+
+[tools]
+node = "lts"
+pnpm = "latest"
+python = "3.12"
+uv = "latest"
+rust = "stable"
+bun = "latest"
+lsd = "latest"
+zoxide = "latest"
+fzf = "latest"
+bat = "latest"
+jq = "latest"
+fd = "latest"
+sd = "latest"
+ripgrep = "latest"
+zellij = "latest"
+yazi = "latest"
+lazygit = "latest"
+lazydocker = "latest"
+neovim = "latest"
+
+[shell_alias]
+# lsd aliases (zsh-aliases-lsd の代替)
+ll = "lsd -alF"
+la = "lsd -A"
+l = "lsd -CF"
+lt = "lsd --tree"
+# zellij
+tt = "zellij action new-pane --floating -- bash -l"
+lzd = "zellij action new-pane --floating -- lazydocker"
+# editor
+vi = "nvim"
+
+[task_config]
+dir = "{{ config_root }}/tasks"

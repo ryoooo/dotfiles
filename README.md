@@ -1,6 +1,6 @@
 # dotfiles
 
-dotter + go-task を使用した dotfiles 管理リポジトリ。
+dotter + mise を使用した dotfiles 管理リポジトリ。
 
 ## 含まれる設定
 
@@ -11,7 +11,7 @@ dotter + go-task を使用した dotfiles 管理リポジトリ。
 | Terminal | `.tmux.conf` | tmux 設定 |
 | Terminal | `config/zellij/*` | Zellij 設定 + レイアウト |
 | Editor | `config/nvim/*` | Neovim (LazyVim) |
-| Tools | `config/mise/config.toml` | mise ツールバージョン管理 |
+| Tools | `config/mise/config.toml` | mise ツール・環境変数・エイリアス |
 | GitHub | `config/gh/config.yml` | GitHub CLI 設定 |
 | Claude | `.claude/*` | Claude Code 設定 |
 | Codex | `.codex/*` | OpenAI Codex CLI 設定 |
@@ -24,13 +24,12 @@ dotter + go-task を使用した dotfiles 管理リポジトリ。
 git clone https://github.com/ryoooo/dotfiles.git ~/dotfiles
 cd ~/dotfiles
 
-# 2. mise と task をインストール（ブートストラップ）
+# 2. mise をインストール
 curl https://mise.run | sh
-~/.local/bin/mise use --global task
 eval "$(~/.local/bin/mise activate bash)"
 
 # 3. 完全セットアップ実行
-task install
+mise run install
 
 # 4. API キーを設定
 cat > ~/.config/mise/config.local.toml << 'EOF'
@@ -45,42 +44,37 @@ N8N_API_KEY = "your-key"
 EOF
 
 # 5. Claude Code MCP サーバー設定
-task setup:mcp
+mise run setup-mcp
 
 # 6. シェル再起動
 exec zsh
 ```
 
-## task コマンド
+## mise run コマンド
 
 ```bash
 # タスク一覧を表示
-task --list
+mise tasks
 
 # 完全セットアップ（新規マシン用）
-task install
+mise run install
 
 # dotfiles をデプロイ（シンボリックリンク作成）
-task deploy
-
-# デプロイを取り消し
-task undeploy
+mise run deploy
 
 # Claude Code MCP サーバー設定
-task setup:mcp
+mise run setup-mcp
 
 # 更新系
-task update:tools        # mise ツールを更新
-task update:zsh-plugins  # Zsh プラグインを更新
-task update:claude-code  # Claude Code を更新
+mise upgrade              # mise ツールを更新
+mise run update-zsh-plugins  # Zsh プラグインを更新
+mise run update-claude-code  # Claude Code を更新
 
 # 個別インストール
-task install:deps        # 基本パッケージ
-task install:mise        # mise
-task install:tools       # mise 経由でツール
-task install:zsh         # Oh My Zsh + プラグイン
-task install:claude-code # Claude Code
-task install:dotter      # dotter + デプロイ
+mise run install-deps        # 基本パッケージ
+mise run install-zsh         # Oh My Zsh + プラグイン
+mise run install-claude-code # Claude Code
+mise run install-dotter      # dotter + デプロイ
 ```
 
 ## dotter の使い方
@@ -107,14 +101,14 @@ task install:dotter      # dotter + デプロイ
 3. デプロイ実行：
 
 ```bash
-task deploy
+mise run deploy
 ```
 
 ## インストールされるツール
 
-`task install` で以下がセットアップされます。
+`mise run install` で以下がセットアップされます。
 
-### mise 経由
+### mise 経由（config/mise/config.toml で管理）
 
 | ツール | 用途 |
 |--------|------|
@@ -124,7 +118,6 @@ task deploy
 | uv | Python パッケージマネージャ |
 | rust (stable) | Rust |
 | bun | JavaScript ランタイム |
-| task | タスクランナー |
 | lsd | ls の代替 |
 | zoxide | cd の代替 |
 | fzf | ファジーファインダー |
@@ -139,11 +132,11 @@ task deploy
 | lazydocker | Docker TUI |
 | neovim | エディタ |
 
-### pnpm 経由
+### ネイティブインストール（自動更新付き）
 
 | ツール | 用途 |
 |--------|------|
-| @anthropic-ai/claude-code | Claude Code CLI |
+| Claude Code | Claude Code CLI |
 
 ### Zsh プラグイン
 
@@ -187,15 +180,16 @@ p10k configure
 ├── config/
 │   ├── gh/            # GitHub CLI
 │   ├── git/           # Git
-│   ├── mise/          # mise
+│   ├── mise/          # mise (config + tasks)
+│   │   ├── config.toml   # ツール・環境変数・エイリアス
+│   │   └── tasks/        # セットアップタスク
 │   ├── nvim/          # Neovim
 │   └── zellij/        # Zellij（config + layouts）
 ├── windows-terminal/  # Windows Terminal
 ├── .gitconfig
 ├── .p10k.zsh
 ├── .tmux.conf
-├── .zshrc
-└── Taskfile.yml       # タスク定義
+└── .zshrc
 ```
 
 ## 開発環境の使い方

@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+#MISE description="dotter のインストールとデプロイ"
+#MISE tools={rust="stable"}
+
+set -e
+
+# dotter バイナリのインストール
+if ! command -v dotter &> /dev/null; then
+  echo "Installing dotter..."
+  cargo install dotter
+else
+  echo "dotter already installed"
+fi
+
+# local.toml の作成
+DOTFILES_DIR="$(cd "$(dirname "$0")/../../.." && pwd)"
+if [[ ! -f "$DOTFILES_DIR/.dotter/local.toml" ]]; then
+  echo "Creating local.toml..."
+  cat > "$DOTFILES_DIR/.dotter/local.toml" << 'EOF'
+includes = []
+packages = ["default"]
+
+[files]
+
+[variables]
+EOF
+fi
+
+# デプロイ
+echo "Deploying dotfiles..."
+cd "$DOTFILES_DIR"
+dotter deploy --force

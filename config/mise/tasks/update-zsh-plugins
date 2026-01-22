@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+#MISE description="Zsh プラグインを更新"
+
+set -e
+
+ZSH_CUSTOM="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"
+
+for dir in "$ZSH_CUSTOM"/plugins/*/; do
+  if [[ -d "$dir/.git" ]]; then
+    echo "Updating $(basename "$dir")..."
+    git -C "$dir" pull --ff-only
+  fi
+done
+
+if [[ -d "$ZSH_CUSTOM/themes/powerlevel10k/.git" ]]; then
+  echo "Updating powerlevel10k..."
+  git -C "$ZSH_CUSTOM/themes/powerlevel10k" pull --ff-only
+fi

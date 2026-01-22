@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+#MISE description="dotfiles をデプロイ（シンボリックリンク作成）"
+
+set -e
+
+DOTFILES_DIR="$(cd "$(dirname "$0")/../../.." && pwd)"
+cd "$DOTFILES_DIR"
+dotter deploy --force

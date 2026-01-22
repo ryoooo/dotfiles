@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+#MISE description="Claude Code を最新版に更新（通常は自動更新されるが手動更新も可能）"
+
+set -e
+
+curl -fsSL https://claude.ai/install.sh | bash

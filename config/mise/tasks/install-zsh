@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+#MISE description="Oh My Zsh とプラグインのインストール"
+
+set -e
+
+ZSH_CUSTOM="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"
+
+# Oh My Zsh のインストール
+if [[ ! -d "$HOME/.oh-my-zsh" ]]; then
+  echo "Installing Oh My Zsh..."
+  sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended --keep-zshrc
+else
+  echo "Oh My Zsh already installed"
+fi
+
+# Powerlevel10k テーマのインストール
+if [[ ! -d "$ZSH_CUSTOM/themes/powerlevel10k" ]]; then
+  echo "Installing Powerlevel10k..."
+  git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "$ZSH_CUSTOM/themes/powerlevel10k"
+else
+  echo "Powerlevel10k already installed"
+fi
+
+# プラグインのインストール
+install_plugin() {
+  local name=$1 url=$2
+  if [[ ! -d "$ZSH_CUSTOM/plugins/$name" ]]; then
+    echo "Installing $name..."
+    git clone "$url" "$ZSH_CUSTOM/plugins/$name"
+  else
+    echo "$name already installed"
+  fi
+}
+
+install_plugin zsh-autosuggestions https://github.com/zsh-users/zsh-autosuggestions
+install_plugin zsh-syntax-highlighting https://github.com/zsh-users/zsh-syntax-highlighting.git
+install_plugin zsh-bat https://github.com/fdellwing/zsh-bat.git
+install_plugin zsh-aliases-lsd https://github.com/yuhonas/zsh-aliases-lsd.git
+install_plugin zsh_codex https://github.com/tom-doerr/zsh_codex.git
+
+# デフォルトシェルを zsh に変更
+if [[ "$SHELL" != *"zsh"* ]]; then
+  echo "Changing default shell to zsh..."
+  chsh -s "$(which zsh)"
+fi

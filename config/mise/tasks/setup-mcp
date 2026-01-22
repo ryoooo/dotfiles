@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+#MISE description="Claude Code MCP サーバーの設定"
+
+set -e
+
+claude mcp add context7 --scope user -- npx -y @upstash/context7-mcp@latest
+echo "Added: context7"
+
+claude mcp add chrome-devtools --scope user -- npx chrome-devtools-mcp@latest --executablePath /usr/bin/google-chrome
+echo "Added: chrome-devtools"
+
+claude mcp add exa --scope user --transport http -- 'https://mcp.exa.ai/mcp?tools=web_search_exa,get_code_context_exa,crawling_exa,company_research_exa,linkedin_search_exa,deep_researcher_start,deep_researcher_check'
+echo "Added: exa"
+
+if [[ -n "$REF_API_KEY" ]]; then
+  claude mcp add Ref --scope user --transport http --header "x-ref-api-key: $REF_API_KEY" -- 'https://api.ref.tools/mcp'
+  echo "Added: Ref"
+else
+  echo "REF_API_KEY not set, skipping Ref"
+fi
+
+echo ""
+echo "MCP servers setup complete! Run 'claude mcp list' to verify."

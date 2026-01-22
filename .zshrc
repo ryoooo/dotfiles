@@ -139,18 +139,9 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 # ===== Custom Configuration =====
+# エイリアスは mise の [shell_alias] で管理
 
-# Additional aliases
-alias ll='ls -alF'
-alias la='ls -A'
-alias l='ls -CF'
-alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history | tail -n1 | sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
-
-# Zellij floating panes
-alias tt='zellij action new-pane --floating -- bash -l'
-alias lzd='zellij action new-pane --floating -- lazydocker'
-
-# Development environment launcher
+# Development environment launcher (関数なのでここに残す)
 dev() {
     local dir="${1:-.}"
     cd "$dir" && zellij --layout dev_fixed_nvim_claude
@@ -179,12 +170,7 @@ if [[ -d /usr/local/cuda ]]; then
   export LD_LIBRARY_PATH=/usr/local/cuda/lib64:${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}
 fi
 
-# pnpm global packages (claude-code など)
-export PNPM_HOME="$HOME/.local/share/pnpm"
-case ":$PATH:" in
-  *":$PNPM_HOME:"*) ;;
-  *) export PATH="$PNPM_HOME:$PATH" ;;
-esac
+# Claude Code はネイティブインストールなので PNPM_HOME 不要
 
 # Safe-chain initialization
 # [[ -f ~/.safe-chain/scripts/init-posix.sh ]] && source ~/.safe-chain/scripts/init-posix.sh

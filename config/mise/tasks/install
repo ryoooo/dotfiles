@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+#MISE description="新規マシンの完全セットアップ"
+#MISE depends=["install-deps", "install-dotter", "install-zsh", "install-claude-code"]
+
+set -e
+
+echo ""
+echo "=== セットアップ完了 ==="
+echo "1. ~/.config/mise/config.local.toml に API キーを設定"
+echo "2. mise run setup-mcp を実行"
+echo "3. exec zsh でシェル再起動"
