@@ -151,13 +151,9 @@ tasks:
         install_plugin zsh_codex https://github.com/tom-doerr/zsh_codex.git
 
   install:claude-code:
-    desc: Claude Code のインストール
-    deps: [install:tools]
-    env:
-      PATH: '{{.HOME}}/.local/bin:{{.HOME}}/.local/share/mise/shims:{{.HOME}}/.local/share/pnpm:{{.PATH}}'
-      PNPM_HOME: '{{.HOME}}/.local/share/pnpm'
+    desc: Claude Code のインストール（公式推奨のネイティブインストール）
     cmds:
-      - pnpm add -g @anthropic-ai/claude-code
+      - curl -fsSL https://claude.ai/install.sh | bash
     status:
       - command -v claude
 
@@ -215,9 +211,9 @@ tasks:
         fi
 
   update:claude-code:
-    desc: Claude Code を最新版に更新
+    desc: Claude Code を最新版に更新（通常は自動更新されるが手動更新も可能）
     cmds:
-      - pnpm update -g @anthropic-ai/claude-code
+      - curl -fsSL https://claude.ai/install.sh | bash
 
   update:tools:
     desc: mise ツールを最新版に更新
