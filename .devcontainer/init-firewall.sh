@@ -86,7 +86,10 @@ for domain in \
     "context7.com" \
     "mcp.context7.com" \
     "storage.googleapis.com" \
-    "claude.ai"; do
+    "claude.ai" \
+    "sh.rustup.rs" \
+    "mise-versions.jdx.dev" \
+    "mise.jdx.dev"; do
     echo "Resolving $domain..."
     ips=$(dig +noall +answer A "$domain" | awk '$4 == "A" {print $5}')
     if [ -z "$ips" ]; then
