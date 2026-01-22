@@ -19,7 +19,6 @@ mkdir -p ~/.codex
 ln -nfs "$DOTFILES_DIR/.zshrc" ~/.zshrc
 ln -nfs "$DOTFILES_DIR/.p10k.zsh" ~/.p10k.zsh
 ln -nfs "$DOTFILES_DIR/.gitconfig" ~/.gitconfig
-ln -nfs "$DOTFILES_DIR/.tmux.conf" ~/.tmux.conf
 ln -nfs "$DOTFILES_DIR/config/git/ignore" ~/.config/git/ignore
 ln -nfs "$DOTFILES_DIR/config/gh/config.yml" ~/.config/gh/config.yml
 ln -nfs "$DOTFILES_DIR/config/mise/config.toml" ~/.config/mise/config.toml
