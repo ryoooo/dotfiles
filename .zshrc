@@ -5,8 +5,8 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-# PATH (mise, cargo などのために先に設定)
-export PATH="$HOME/.local/bin:$HOME/.cargo/bin:$PATH"
+# PATH (mise shims を先に設定して oh-my-zsh プラグインが見つけられるようにする)
+export PATH="$HOME/.local/share/mise/shims:$HOME/.local/bin:$HOME/.cargo/bin:$PATH"
 
 # Path to your Oh My Zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
@@ -83,7 +83,7 @@ plugins=(
   mise
   uv
   bun
-  pnpm
+  # pnpm - oh-my-zsh 標準プラグインに存在しない
   gh
   rust
   docker
