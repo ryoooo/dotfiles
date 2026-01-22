@@ -29,8 +29,8 @@ cd ~/dotfiles
 curl https://mise.run | sh
 eval "$(~/.local/bin/mise activate bash)"  # 一時的に有効化
 
-# 3. 完全セットアップ実行（ツールインストール + 設定デプロイ）
-mise trust . && mise install && mise run setup
+# 3. 完全セットアップ実行
+mise trust . && mise run deploy && mise install && mise run setup
 
 # 4. シェル再起動（Zsh + Oh My Zsh が有効になる）
 exec zsh
@@ -123,7 +123,8 @@ devpod up
 ↓
 .devcontainer/Dockerfile: mise + 基本ツール
 ↓
-postCreateCommand: dotfiles clone → mise install → mise run setup
+postCreateCommand: dotfiles clone → mise run deploy → mise install → mise run setup
+  - mise run deploy: シンボリックリンク作成（~/.config/mise/config.toml など）
   - mise install: CLI ツール（fd, rg, bat, fzf, zoxide...）
   - mise run setup: Claude Code, Zsh + Oh My Zsh + Powerlevel10k
 ↓
@@ -174,7 +175,7 @@ mise run install-claude-code # Claude Code
 
 ## インストールされるツール
 
-`mise install && mise run setup` で以下がセットアップされます。
+`mise run deploy && mise install && mise run setup` で以下がセットアップされます。
 
 ### mise 経由（config/mise/config.toml で管理）
 

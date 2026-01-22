@@ -1,29 +1,8 @@
 # dotfiles ローカル用 mise 設定
-# グローバル設定は config/mise/config.toml を参照
+# ツール定義は config/mise/config.toml（グローバル設定）を参照
 
 [settings]
 experimental = true
-
-[tools]
-node = "lts"
-pnpm = "latest"
-python = "3.12"
-uv = "latest"
-rust = "stable"
-bun = "latest"
-lsd = "latest"
-zoxide = "latest"
-fzf = "latest"
-bat = "latest"
-jq = "latest"
-fd = "latest"
-sd = "latest"
-ripgrep = "latest"
-zellij = "latest"
-yazi = "latest"
-lazygit = "latest"
-lazydocker = "latest"
-neovim = "latest"
 
 [task_config]
 includes = ["config/mise/tasks"]
