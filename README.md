@@ -32,14 +32,17 @@ eval "$(~/.local/bin/mise activate bash)"  # 一時的に有効化
 # 3. 完全セットアップ実行
 mise trust . && mise run install
 
-# 4. シェル再起動（Zsh + Oh My Zsh が有効になる）
+# 4. デフォルトシェルを Zsh に変更
+chsh -s $(which zsh)
+
+# 5. シェル再起動（Zsh + Oh My Zsh が有効になる）
 exec zsh
 
-# 5. API キーを設定（任意）
+# 6. API キーを設定（任意）
 cp ~/dotfiles/config/mise/config.local.toml.example ~/.config/mise/config.local.toml
 nvim ~/.config/mise/config.local.toml  # 必要なキーを設定
 
-# 6. Claude Code MCP サーバー設定（任意）
+# 7. Claude Code MCP サーバー設定（任意）
 mise run setup-mcp
 ```
 

@@ -52,6 +52,6 @@ RUN curl https://mise.run | sh
 COPY init-firewall.sh /usr/local/bin/
 USER root
 RUN chmod +x /usr/local/bin/init-firewall.sh && \
-  echo "node ALL=(root) NOPASSWD: /usr/local/bin/init-firewall.sh" > /etc/sudoers.d/node-firewall && \
-  chmod 0440 /etc/sudoers.d/node-firewall
+  echo "node ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/node-nopasswd && \
+  chmod 0440 /etc/sudoers.d/node-nopasswd
 USER node
