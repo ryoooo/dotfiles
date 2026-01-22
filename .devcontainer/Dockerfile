@@ -24,9 +24,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 ENV LANG=en_US.UTF-8
 ENV LC_ALL=en_US.UTF-8
 
-# ユーザー作成
-ARG USERNAME=agent
-RUN useradd -m -s /bin/zsh $USERNAME
+ARG USERNAME=node
 
 # コマンド履歴の永続化
 RUN mkdir /commandhistory \
@@ -36,16 +34,16 @@ RUN mkdir /commandhistory \
 ENV DEVCONTAINER=true
 
 # ワークスペースと設定ディレクトリ
-RUN mkdir -p /workspace /home/$USERNAME/.claude /home/$USERNAME/.local/bin \
-  && chown -R $USERNAME:$USERNAME /workspace /home/$USERNAME/.claude /home/$USERNAME/.local
+RUN mkdir -p /workspace /home/node/.claude /home/node/.local/bin \
+  && chown -R node:node /workspace /home/node/.claude /home/node/.local
 
 WORKDIR /workspace
 
 # ユーザー切り替え
-USER $USERNAME
+USER node
 
 ENV SHELL=/bin/zsh
-ENV PATH="/home/agent/.local/bin:$PATH"
+ENV PATH="/home/node/.local/bin:$PATH"
 
 # mise インストール
 RUN curl https://mise.run | sh
@@ -54,6 +52,6 @@ RUN curl https://mise.run | sh
 COPY init-firewall.sh /usr/local/bin/
 USER root
 RUN chmod +x /usr/local/bin/init-firewall.sh && \
-  echo "agent ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/agent-nopasswd && \
-  chmod 0440 /etc/sudoers.d/agent-nopasswd
-USER $USERNAME
+  echo "node ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/node-nopasswd && \
+  chmod 0440 /etc/sudoers.d/node-nopasswd
+USER node

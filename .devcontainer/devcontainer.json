@@ -30,14 +30,14 @@
 			}
 		}
 	},
-	"remoteUser": "agent",
+	"remoteUser": "node",
 	"mounts": [
 		"source=claude-code-bashhistory-${devcontainerId},target=/commandhistory,type=volume",
-		"source=claude-code-config-${devcontainerId},target=/home/agent/.claude,type=volume"
+		"source=claude-code-config-${devcontainerId},target=/home/node/.claude,type=volume"
 	],
 	"containerEnv": {
 		"NODE_OPTIONS": "--max-old-space-size=4096",
-		"CLAUDE_CONFIG_DIR": "/home/agent/.claude"
+		"CLAUDE_CONFIG_DIR": "/home/node/.claude"
 	},
 	"workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=delegated",
 	"workspaceFolder": "/workspace",
