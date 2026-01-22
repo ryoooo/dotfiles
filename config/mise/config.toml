@@ -5,7 +5,7 @@ experimental = true
 EDITOR = "nvim"
 LANG = "ja_JP.UTF-8"
 # API keys (config.local.toml で上書き)
-REF_API_KEY = { required = "https://ref.tools で取得" }
+# REF_API_KEY = "..." # https://ref.tools で取得
 # Optional API keys - config.local.toml で設定
 # OPENROUTER_API_KEY = "sk-or-..."
 # GITHUB_MCP_TOKEN = "ghp_..."
