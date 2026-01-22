@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+#MISE description="グローバル npm パッケージをインストール"
+
+set -e
+
+echo "=== npm グローバルパッケージをインストール ==="
+
+pnpm add -g \
+  pyright \
+  typescript \
+  typescript-language-server

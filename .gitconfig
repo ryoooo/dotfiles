@@ -15,3 +15,17 @@
 	default = codex
 [url "https://github.com/"]
 	insteadOf = git@github.com:
+[credential]
+        helper = !'/usr/local/bin/devpod' agent git-credentials --port 12049
+[core]
+	pager = delta
+[interactive]
+	diffFilter = delta --color-only
+[delta]
+	navigate = true
+	side-by-side = true
+	line-numbers = true
+[merge]
+	conflictstyle = zdiff3
+[diff]
+	colorMoved = default

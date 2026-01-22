@@ -107,7 +107,7 @@ plugins=(
   zsh_codex
 )
 
-source $ZSH/oh-my-zsh.sh
+source "$ZSH/oh-my-zsh.sh"
 
 # User configuration
 
@@ -157,11 +157,11 @@ elif [[ -f /usr/local/bin/brew ]]; then
 fi
 
 # git-worktree-runner
-if [ -f ~/git-worktree-runner/completions/gtr.zsh ]; then
-    source ~/git-worktree-runner/completions/gtr.zsh
-elif [ -f ~/git-worktree-runner/completions/gtr.bash ]; then
+if [[ -f "$HOME/git-worktree-runner/completions/gtr.zsh" ]]; then
+    source "$HOME/git-worktree-runner/completions/gtr.zsh"
+elif [[ -f "$HOME/git-worktree-runner/completions/gtr.bash" ]]; then
     autoload -U +X bashcompinit && bashcompinit
-    source ~/git-worktree-runner/completions/gtr.bash
+    source "$HOME/git-worktree-runner/completions/gtr.bash"
 fi
 
 # CUDA (存在する場合のみ)
@@ -177,8 +177,9 @@ fi
 
 # zsh_codex configuration
 export ZSH_CODEX_PYTHON="$(mise which python 2>/dev/null || echo python)"
-if [[ -n "$OPENROUTER_API_KEY" ]]; then
-  cat > ~/.config/zsh_codex.ini << EOF
+ZSH_CODEX_CONFIG="$HOME/.config/zsh_codex.ini"
+if [[ -n "$OPENROUTER_API_KEY" ]] && [[ ! -f "$ZSH_CODEX_CONFIG" ]]; then
+  cat > "$ZSH_CODEX_CONFIG" << EOF
 [service]
 service = openrouter
 
@@ -188,6 +189,7 @@ api_key = ${OPENROUTER_API_KEY}
 model = google/gemini-3-flash-preview
 base_url = https://openrouter.ai/api/v1
 EOF
+  chmod 600 "$ZSH_CODEX_CONFIG"
 fi
 bindkey '^X' create_completion
 

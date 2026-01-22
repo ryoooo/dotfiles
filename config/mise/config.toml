@@ -34,6 +34,10 @@ yazi = "latest"
 lazygit = "latest"
 lazydocker = "latest"
 "aqua:neovim/neovim" = "latest"
+"aqua:openai/codex" = "latest"
+gh = "latest"
+lua-language-server = "latest"
+delta = "latest"
 
 [shell_alias]
 # lsd aliases (zsh-aliases-lsd の代替)
