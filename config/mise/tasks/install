@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #MISE description="新規マシンの完全セットアップ"
-#MISE depends=["install-deps", "install-dotter", "install-zsh", "install-claude-code"]
+#MISE depends=["install-deps", "deploy", "install-zsh", "install-claude-code"]
 
 set -e
 

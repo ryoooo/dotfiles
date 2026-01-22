@@ -4,5 +4,33 @@
 set -e
 
 DOTFILES_DIR="$(cd "$(dirname "$0")/../../.." && pwd)"
-cd "$DOTFILES_DIR"
-dotter deploy --force
+
+echo "Deploying dotfiles from $DOTFILES_DIR ..."
+
+# 必要なディレクトリを作成
+mkdir -p ~/.config/git
+mkdir -p ~/.config/gh
+mkdir -p ~/.config/mise/tasks
+mkdir -p ~/.config/zellij
+mkdir -p ~/.claude
+mkdir -p ~/.codex
+
+# シンボリックリンク作成
+ln -nfs "$DOTFILES_DIR/.zshrc" ~/.zshrc
+ln -nfs "$DOTFILES_DIR/.p10k.zsh" ~/.p10k.zsh
+ln -nfs "$DOTFILES_DIR/.gitconfig" ~/.gitconfig
+ln -nfs "$DOTFILES_DIR/.tmux.conf" ~/.tmux.conf
+ln -nfs "$DOTFILES_DIR/config/git/ignore" ~/.config/git/ignore
+ln -nfs "$DOTFILES_DIR/config/gh/config.yml" ~/.config/gh/config.yml
+ln -nfs "$DOTFILES_DIR/config/mise/config.toml" ~/.config/mise/config.toml
+ln -nfs "$DOTFILES_DIR/config/mise/tasks" ~/.config/mise/tasks
+ln -nfs "$DOTFILES_DIR/.claude/CLAUDE.md" ~/.claude/CLAUDE.md
+ln -nfs "$DOTFILES_DIR/.claude/settings.json" ~/.claude/settings.json
+ln -nfs "$DOTFILES_DIR/.claude/statusline.sh" ~/.claude/statusline.sh
+ln -nfs "$DOTFILES_DIR/.codex/config.toml" ~/.codex/config.toml
+ln -nfs "$DOTFILES_DIR/.codex/AGENTS.md" ~/.codex/AGENTS.md
+ln -nfs "$DOTFILES_DIR/config/zellij/config.kdl" ~/.config/zellij/config.kdl
+ln -nfs "$DOTFILES_DIR/config/zellij/layouts" ~/.config/zellij/layouts
+ln -nfs "$DOTFILES_DIR/config/nvim" ~/.config/nvim
+
+echo "Done!"

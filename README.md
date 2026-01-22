@@ -1,6 +1,6 @@
 # dotfiles
 
-dotter + mise を使用した dotfiles 管理リポジトリ。
+mise を使用した dotfiles 管理リポジトリ。
 
 ## 含まれる設定
 
@@ -74,35 +74,13 @@ mise run update-claude-code  # Claude Code を更新
 mise run install-deps        # 基本パッケージ
 mise run install-zsh         # Oh My Zsh + プラグイン
 mise run install-claude-code # Claude Code
-mise run install-dotter      # dotter + デプロイ
 ```
 
-## dotter の使い方
-
-### 設定ファイル
-
-```
-.dotter/
-├── global.toml   # 全マシン共通設定（Git管理）
-├── local.toml    # マシン固有設定（Git管理外）
-└── cache.toml    # キャッシュ（Git管理外）
-```
-
-### 新しいファイルを追加
+## 新しいファイルを追加
 
 1. dotfiles リポジトリにファイルを追加
-2. `.dotter/global.toml` に追記：
-
-```toml
-[default.files]
-"新しいファイル" = "~/.config/新しいファイル"
-```
-
-3. デプロイ実行：
-
-```bash
-mise run deploy
-```
+2. `config/mise/tasks/deploy` に ln コマンドを追記
+3. デプロイ実行：`mise run deploy`
 
 ## インストールされるツール
 
@@ -151,18 +129,7 @@ mise run deploy
 
 ### マシン固有の設定
 
-`.dotter/local.toml` で個別設定：
-
-```toml
-includes = []
-packages = ["default"]
-
-[files]
-# マシン固有のファイルマッピング
-
-[variables]
-# テンプレート変数
-```
+`~/.config/mise/config.local.toml` で個別設定（gitignore済み）。
 
 ### Powerlevel10k
 
@@ -176,7 +143,6 @@ p10k configure
 ~/dotfiles/
 ├── .claude/           # Claude Code 設定
 ├── .codex/            # Codex CLI 設定
-├── .dotter/           # dotter 設定
 ├── config/
 │   ├── gh/            # GitHub CLI
 │   ├── git/           # Git
