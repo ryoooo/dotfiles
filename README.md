@@ -8,7 +8,6 @@
 |----------|----------|------|
 | Shell | `.zshrc`, `.p10k.zsh` | Zsh + Oh My Zsh + Powerlevel10k |
 | Git | `.gitconfig`, `config/git/ignore` | Git グローバル設定 |
-| Terminal | `.tmux.conf` | tmux 設定 |
 | Terminal | `config/zellij/*` | Zellij 設定 + レイアウト |
 | Editor | `config/nvim/*` | Neovim (LazyVim) |
 | Tools | `config/mise/config.toml` | mise ツール・環境変数・エイリアス |
@@ -252,7 +251,6 @@ p10k configure
 ├── windows-terminal/  # Windows Terminal
 ├── .gitconfig
 ├── .p10k.zsh
-├── .tmux.conf
 └── .zshrc
 ```
 
