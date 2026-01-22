@@ -47,6 +47,18 @@ exec zsh
 
 [DevPod](https://devpod.sh/) を使って、どこでも同じ開発環境を構築できます。クライアントのみで動作し、ベンダーロックインなし。
 
+### DevContainer のみ取得
+
+既存プロジェクトに DevContainer 設定だけ追加したい場合：
+
+```bash
+mkdir -p .devcontainer && cd .devcontainer && \
+curl -fsSLO https://raw.githubusercontent.com/ryoooo/dotfiles/main/.devcontainer/Dockerfile && \
+curl -fsSLO https://raw.githubusercontent.com/ryoooo/dotfiles/main/.devcontainer/devcontainer.json && \
+curl -fsSLO https://raw.githubusercontent.com/ryoooo/dotfiles/main/.devcontainer/init-firewall.sh && \
+cd ..
+```
+
 ### DevPod インストール（Ubuntu/Linux）
 
 ```bash
