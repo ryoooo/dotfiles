@@ -3,6 +3,9 @@
 
 set -e
 
+# devcontainer では Dockerfile で事前インストール済み
+[[ "$DEVCONTAINER" == "true" ]] && echo "Skipping in devcontainer" && exit 0
+
 if command -v gcc &> /dev/null; then
   echo "build-essential already installed"
   exit 0

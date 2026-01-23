@@ -5,6 +5,11 @@ set -e
 
 echo "=== npm グローバルパッケージをインストール ==="
 
+# pnpm グローバルディレクトリのセットアップ
+export PNPM_HOME="${PNPM_HOME:-$HOME/.local/share/pnpm}"
+mkdir -p "$PNPM_HOME"
+export PATH="$PNPM_HOME:$PATH"
+
 pnpm add -g \
   pyright \
   typescript \

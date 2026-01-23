@@ -38,8 +38,8 @@ install_plugin zsh-bat https://github.com/fdellwing/zsh-bat.git
 install_plugin zsh-aliases-lsd https://github.com/yuhonas/zsh-aliases-lsd.git
 install_plugin zsh_codex https://github.com/tom-doerr/zsh_codex.git
 
-# デフォルトシェルを zsh に変更（失敗しても続行）
-if [[ "$SHELL" != *"zsh"* ]]; then
+# デフォルトシェルを zsh に変更（失敗しても続行、devcontainer ではスキップ）
+if [[ "$DEVCONTAINER" != "true" && "$SHELL" != *"zsh"* ]]; then
   echo "Changing default shell to zsh..."
   sudo chsh -s "$(which zsh)" "$(whoami)" 2>/dev/null || chsh -s "$(which zsh)" 2>/dev/null || echo "Note: Could not change default shell. Run 'chsh -s \$(which zsh)' manually if needed."
 fi
