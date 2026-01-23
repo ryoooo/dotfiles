@@ -16,87 +16,88 @@
   "theme": {
     "mode": "dark",
     "light": "Dayfox - blurred",
-    "dark": "Vercel Dark",
+    "dark": "Vercel Dark"
   },
 
   "icon_theme": "Material Icon Theme",
 
   "tabs": {
     "file_icons": true,
-    "git_status": true,
+    "git_status": true
   },
 
   "autosave": "on_focus_change",
+  "reload_on_external_change": "always",
   "format_on_save": "off",
   "ensure_final_newline_on_save": false,
 
   "indent_guides": {
-    "enabled": true,
+    "enabled": true
   },
 
   "git": {
     "inline_blame": {
-      "enabled": true,
-    },
+      "enabled": true
+    }
   },
 
   "telemetry": {
     "diagnostics": false,
-    "metrics": false,
+    "metrics": false
   },
 
   "languages": {
     "JavaScript": {
       "formatter": {
         "language_server": {
-          "name": "biome",
-        },
+          "name": "biome"
+        }
       },
       "code_actions_on_format": {
         "source.fixAll.biome": true,
-        "source.organizeImports.biome": true,
-      },
+        "source.organizeImports.biome": true
+      }
     },
     "TypeScript": {
       "formatter": {
         "language_server": {
-          "name": "biome",
-        },
+          "name": "biome"
+        }
       },
       "code_actions_on_format": {
         "source.fixAll.biome": true,
-        "source.organizeImports.biome": true,
-      },
+        "source.organizeImports.biome": true
+      }
     },
     "TSX": {
       "formatter": {
         "language_server": {
-          "name": "biome",
-        },
+          "name": "biome"
+        }
       },
       "code_actions_on_format": {
         "source.fixAll.biome": true,
-        "source.organizeImports.biome": true,
-      },
+        "source.organizeImports.biome": true
+      }
     },
     "Python": {
       "language_servers": ["ty", "ruff", "!basedpyright", "..."],
       "formatter": {
         "language_server": {
-          "name": "ruff",
-        },
+          "name": "ruff"
+        }
       },
       "code_actions_on_format": {
         "source.organizeImports.ruff": true,
-        "source.fixAll.ruff": true,
-      },
-    },
+        "source.fixAll.ruff": true
+      }
+    }
   },
 
   "agent": {
     "default_model": {
       "provider": "openrouter",
-      "model": "x-ai/grok-4.1-fast",
+      "model": "google/gemini-3-flash-preview"
     },
     "favorite_models": [
       {
@@ -114,9 +115,13 @@
       {
         "provider": "openrouter",
         "model": "x-ai/grok-4.1-fast"
+      },
+      {
+        "provider": "openrouter",
+        "model": "openai/gpt-5.2"
       }
-    ],
+    ]
   },
 
-  "context_servers": {},
+  "context_servers": {}
 }
