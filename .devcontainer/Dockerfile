@@ -1,16 +1,20 @@
-FROM node:22
+FROM node:22-slim
 
 ARG TZ
 ENV TZ="$TZ"
 
 # 基本パッケージ + ファイアウォール関連（miseで入れられないもの）
 RUN apt-get update && apt-get install -y --no-install-recommends \
+  ca-certificates \
   git \
   curl \
   sudo \
   zsh \
   locales \
   build-essential \
+  less \
+  procps \
+  gnupg \
   # ファイアウォールスクリプト用
   iptables \
   ipset \
@@ -20,7 +24,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   jq \
   && apt-get clean && rm -rf /var/lib/apt/lists/* \
   && sed -i '/en_US.UTF-8/s/^# //g' /etc/locale.gen \
-  && locale-gen
+  && locale-gen \
+  && chsh -s /bin/zsh node
 
 ENV LANG=en_US.UTF-8
 ENV LC_ALL=en_US.UTF-8
