@@ -2,39 +2,11 @@
   "env": {
     "ENABLE_TOOL_SEARCH": "true"
   },
+  "model": "opus",
   "statusLine": {
     "type": "command",
     "command": "bunx -y ccstatusline@latest",
     "padding": 0
-  },
-  "extraKnownMarketplaces": {
-    "claude-plugins-official": {
-      "source": { "source": "github", "repo": "anthropics/claude-plugins-official" }
-    },
-    "anthropic-agent-skills": {
-      "source": { "source": "github", "repo": "anthropics/skills" }
-    },
-    "superpowers-marketplace": {
-      "source": { "source": "github", "repo": "obra/superpowers-marketplace" }
-    },
-    "context-engineering-kit": {
-      "source": { "source": "github", "repo": "NeoLabHQ/context-engineering-kit" }
-    },
-    "claude-code-workflows": {
-      "source": { "source": "github", "repo": "wshobson/agents" }
-    },
-    "thedotmack": {
-      "source": { "source": "github", "repo": "thedotmack/claude-mem" }
-    },
-    "n8n-mcp-skills": {
-      "source": { "source": "github", "repo": "czlonkowski/n8n-skills" }
-    },
-    "aws-skills": {
-      "source": { "source": "github", "repo": "zxkane/aws-skills" }
-    },
-    "claude-skills": {
-      "source": { "source": "git", "url": "https://github.com/jezweb/claude-skills.git" }
-    }
   },
   "enabledPlugins": {
     "superpowers@superpowers-marketplace": true,
@@ -60,6 +32,62 @@
     "llm-application-dev@claude-code-workflows": true,
     "startup-business-analyst@claude-code-workflows": true,
     "document-skills@anthropic-agent-skills": true
+  },
+  "extraKnownMarketplaces": {
+    "claude-plugins-official": {
+      "source": {
+        "source": "github",
+        "repo": "anthropics/claude-plugins-official"
+      }
+    },
+    "anthropic-agent-skills": {
+      "source": {
+        "source": "github",
+        "repo": "anthropics/skills"
+      }
+    },
+    "superpowers-marketplace": {
+      "source": {
+        "source": "github",
+        "repo": "obra/superpowers-marketplace"
+      }
+    },
+    "context-engineering-kit": {
+      "source": {
+        "source": "github",
+        "repo": "NeoLabHQ/context-engineering-kit"
+      }
+    },
+    "claude-code-workflows": {
+      "source": {
+        "source": "github",
+        "repo": "wshobson/agents"
+      }
+    },
+    "thedotmack": {
+      "source": {
+        "source": "github",
+        "repo": "thedotmack/claude-mem"
+      }
+    },
+    "n8n-mcp-skills": {
+      "source": {
+        "source": "github",
+        "repo": "czlonkowski/n8n-skills"
+      }
+    },
+    "aws-skills": {
+      "source": {
+        "source": "github",
+        "repo": "zxkane/aws-skills"
+      }
+    },
+    "claude-skills": {
+      "source": {
+        "source": "git",
+        "url": "https://github.com/jezweb/claude-skills.git"
+      }
+    }
   },
   "language": "Japanese",
   "alwaysThinkingEnabled": true

@@ -2,7 +2,7 @@
 .dotter/
 
 # mise secrets
-config/mise/config.local.toml
+config/mise/*.local.toml
 
 # エディタ
 *.swp
