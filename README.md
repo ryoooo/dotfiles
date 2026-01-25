@@ -222,6 +222,19 @@ mise run install-claude-code # Claude Code
 
 `~/.config/mise/config.local.toml` でマシン固有の API キーや環境変数を設定。`~/dotfiles/config/mise/config.local.toml.example` を参考に作成。このファイルは gitignore 対象。
 
+### OpenRouter 経由で Claude を使う
+
+OpenRouter API を使って Claude Code を実行できます。
+
+```bash
+# OpenRouter 用の API キーを設定
+cp ~/dotfiles/config/mise/config.openrouter.local.toml.example ~/.config/mise/config.openrouter.local.toml
+nvim ~/.config/mise/config.openrouter.local.toml  # ANTHROPIC_AUTH_TOKEN を設定
+
+# OpenRouter 環境で Claude を起動
+mise exec -E openrouter -- claude
+```
+
 ### Powerlevel10k
 
 ```bash
@@ -245,6 +258,8 @@ p10k configure
 │   ├── mise/          # mise (config + tasks)
 │   │   ├── config.toml           # ツール・環境変数・エイリアス
 │   │   ├── config.local.toml.example  # 秘密情報のテンプレート
+│   │   ├── config.openrouter.toml        # OpenRouter 設定
+│   │   ├── config.openrouter.local.toml.example  # OpenRouter 秘密情報
 │   │   └── tasks/                # セットアップタスク
 │   ├── nvim/          # Neovim
 │   └── zellij/        # Zellij（config + layouts）
