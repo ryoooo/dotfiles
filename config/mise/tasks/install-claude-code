@@ -1,9 +1,8 @@
 #!/usr/bin/env bash
-#MISE description="Claude Code のインストールとプラグイン設定"
+#MISE description="Claude Code のインストール"
 
 set -e
 
-# Claude Code インストール
 if ! command -v claude &> /dev/null; then
   echo "Installing Claude Code..."
   curl -fsSL https://claude.ai/install.sh | bash
@@ -11,20 +10,5 @@ else
   echo "Claude Code already installed"
 fi
 
-# プラグインマーケットプレイスを追加
-echo "Configuring plugin marketplaces..."
-marketplaces=(
-  "obra/superpowers-marketplace"
-  "anthropics/skills"
-  "NeoLabHQ/context-engineering-kit"
-  "thedotmack/claude-mem"
-  "czlonkowski/n8n-skills"
-  "wshobson/agents"
-)
-
-for marketplace in "${marketplaces[@]}"; do
-  echo "Adding marketplace: $marketplace"
-  claude plugin marketplace add "$marketplace" 2>/dev/null || true
-done
-
+# マーケットプレイス設定は .claude/settings.json の extraKnownMarketplaces で管理
 echo "Claude Code setup complete"

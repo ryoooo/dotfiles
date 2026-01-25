@@ -7,26 +7,59 @@
     "command": "bunx -y ccstatusline@latest",
     "padding": 0
   },
+  "extraKnownMarketplaces": {
+    "claude-plugins-official": {
+      "source": { "source": "github", "repo": "anthropics/claude-plugins-official" }
+    },
+    "anthropic-agent-skills": {
+      "source": { "source": "github", "repo": "anthropics/skills" }
+    },
+    "superpowers-marketplace": {
+      "source": { "source": "github", "repo": "obra/superpowers-marketplace" }
+    },
+    "context-engineering-kit": {
+      "source": { "source": "github", "repo": "NeoLabHQ/context-engineering-kit" }
+    },
+    "claude-code-workflows": {
+      "source": { "source": "github", "repo": "wshobson/agents" }
+    },
+    "thedotmack": {
+      "source": { "source": "github", "repo": "thedotmack/claude-mem" }
+    },
+    "n8n-mcp-skills": {
+      "source": { "source": "github", "repo": "czlonkowski/n8n-skills" }
+    },
+    "aws-skills": {
+      "source": { "source": "github", "repo": "zxkane/aws-skills" }
+    },
+    "claude-skills": {
+      "source": { "source": "git", "url": "https://github.com/jezweb/claude-skills.git" }
+    }
+  },
   "enabledPlugins": {
-    "claude-mem@thedotmack": false,
-    "code-review@claude-plugins-official": false,
-    "commit-commands@claude-plugins-official": true,
     "superpowers@superpowers-marketplace": true,
-    "docs@context-engineering-kit": true,
+    "superpowers-developing-for-claude-code@superpowers-marketplace": true,
+    "superpowers-chrome@superpowers-marketplace": true,
+    "episodic-memory@superpowers-marketplace": true,
     "typescript-lsp@claude-plugins-official": true,
     "pyright-lsp@claude-plugins-official": true,
     "rust-analyzer-lsp@claude-plugins-official": true,
     "ralph-loop@claude-plugins-official": true,
-    "lua-lsp@claude-plugins-official": false,
     "code-simplifier@claude-plugins-official": true,
     "frontend-design@claude-plugins-official": true,
-    "playwright@claude-plugins-official": true,
-    "git@context-engineering-kit": true,
+    "context7@claude-plugins-official": true,
+    "plugin-dev@claude-plugins-official": true,
+    "hookify@claude-plugins-official": true,
+    "claude-md-management@claude-plugins-official": true,
+    "claude-code-setup@claude-plugins-official": true,
     "mcp@context-engineering-kit": true,
     "reflexion@context-engineering-kit": true,
     "tech-stack@context-engineering-kit": true,
-    "document-skills@anthropic-agent-skills": true,
-    "superpowers-developing-for-claude-code@superpowers-marketplace": true
+    "code-documentation@claude-code-workflows": true,
+    "codebase-cleanup@claude-code-workflows": true,
+    "llm-application-dev@claude-code-workflows": true,
+    "startup-business-analyst@claude-code-workflows": true,
+    "document-skills@anthropic-agent-skills": true
   },
   "language": "Japanese",
   "alwaysThinkingEnabled": true
