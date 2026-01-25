@@ -32,3 +32,11 @@ Code quality: uv run ruff format . for formatting, uv run ruff check . for linti
 Testing: uv run pytest. Use anyio for async tests.
 Pre-commit: Runs automatically on git commit with Prettier (YAML/JSON), Ruff, and ty (Python).
 </python_development>
+
+<typescript_development>
+Package management: Use pnpm add for installing packages, pnpm add -D for dev dependencies, pnpm run for scripts, pnpm dlx for one-off execution. Never use npm, npx, or yarn.
+Code quality: pnpm dlx oxfmt --write . for formatting, pnpm dlx oxlint --tsconfig ./tsconfig.json --type-aware . for linting. Use oxc instead of Prettier/ESLint/Biome.
+Type checking: pnpm dlx tsc --noEmit.
+Testing: pnpm test.
+Pre-commit: Runs automatically on git commit with Prettier (YAML/JSON), oxc, and tsc (TS/JS).
+</typescript_development>

@@ -20,6 +20,18 @@ python main.py
 ## 開発環境
 - ローカル: `mise.local.toml` に設定（gitignore済み）
 
+## LSP
+
+可能な限り LSP を使用する。
+
+| Language | Plugin | Binary |
+|----------|--------|--------|
+| Go | gopls-lsp | gopls |
+| Lua | lua-lsp | lua-language-server |
+| Python | pyright-lsp | pyright-langserver |
+| Rust | rust-analyzer-lsp | rust-analyzer |
+| TypeScript | typescript-lsp | typescript-language-server |
+
 ## CLIツール
 
 Bash使用時はモダンCLIを優先:
