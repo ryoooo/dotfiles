@@ -26,7 +26,8 @@ cd ~/dotfiles
 
 # 2. mise をインストール
 curl https://mise.run | sh
-eval "$(~/.local/bin/mise activate bash)"  # 一時的に有効化
+eval "$(~/.local/bin/mise activate zsh)"   # zsh の場合
+# eval "$(~/.local/bin/mise activate bash)"  # bash の場合
 
 # 3. 完全セットアップ実行
 mise trust . && mise run deploy && mise install && mise run setup
